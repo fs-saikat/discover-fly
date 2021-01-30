@@ -81,7 +81,7 @@ input::-webkit-inner-spin-button {
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p id="total-price">$500</p>
                     </div>
                 </div>
 
@@ -90,7 +90,7 @@ input::-webkit-inner-spin-button {
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p id="tax-amount">$50</p>
                     </div>
                 </div>
                 <hr>
@@ -99,11 +99,11 @@ input::-webkit-inner-spin-button {
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p id="overall-total">$550</p>
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button  class="btn-style">Book Now</button>
         </div>
 
         <div class="booking-content">
@@ -116,29 +116,54 @@ input::-webkit-inner-spin-button {
         
 
         function handleTicketsQuantity(tickets, increase){
-        const firstClassInput =  document.getElementById( tickets + '-count');
-        const firstClassCount = parseInt(firstClassInput.value);
-       let firstClassNewCount = firstClassCount;
+        const ticketsInput =  document.getElementById( tickets + '-count');
+        const ticketsCount = parseInt(ticketsInput.value);
+       let ticketsNewCount = ticketsCount;
         if (increase == true) {
-            firstClassNewCount = firstClassCount + 1;
+            ticketsNewCount = ticketsCount + 1;
 
         }
-        if (increase == false && firstClassCount > 0) {
-            firstClassNewCount = firstClassCount - 1;
+        if (increase == false && ticketsCount > 0) {
+            ticketsNewCount = ticketsCount - 1;
         }
-        firstClassInput.value = firstClassNewCount;
-        let firstClassAmount = 0;
+        ticketsInput.value = ticketsNewCount;
+        let ticketsAmount = 0;
         if(tickets == 'firstClass'){
-            firstClassAmount  =   firstClassNewCount * 150;
+            ticketsAmount  =   ticketsNewCount * 150;
         }
         if ( tickets == 'economy'){
-            firstClassAmount  =   firstClassNewCount * 100;
+            ticketsAmount  =   ticketsNewCount * 100;
         }
-        document.getElementById(tickets + '-amount').innerText = '($'+  firstClassAmount + ')'  ;
-       
+        document.getElementById(tickets + '-amount').innerText = '($'+  ticketsAmount + ')'  ;
+        calculateTotal();
         }
-       
 
+
+        function calculateTotal(){
+           
+            const firstClassCount = getTicketValue('firstClass');
+           const economyCount = getTicketValue('economy');
+
+           const totalPrice = firstClassCount * 150 +  economyCount * 100;
+
+
+           document.getElementById('total-price').innerText = '$' + totalPrice;
+
+           const tax = totalPrice * 0.1;
+           document.getElementById('tax-amount').innerText = '$' + tax;
+
+           const grandtotal = totalPrice + tax;
+           document.getElementById('overall-total').innerText ='$' + grandtotal;
+
+
+
+        }
+    function getTicketValue(allTicket){
+         const allTicketInput = document.getElementById(allTicket + '-count');
+          const allTicketCount = parseInt(allTicketInput.value);
+        return allTicketCount;
+         }
+ 
     </script>
 </body>
 
