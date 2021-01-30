@@ -11,6 +11,14 @@
         rel="stylesheet">
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
+
+  <style>
+      input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+  </style>
 </head>
 
 <body>
@@ -50,22 +58,22 @@
             </div>
             <div class="input-group f-class">
                 <div>
-                    <label for="">First Class <span id="ticket-amount">($150)</span></label>
-                    <input id="ticket-counter" type="text" class="form-control text-center" value="1">
+                    <label for="">First Class <span id="firstClass-amount">($150)</span></label>
+                    <input id="firstClass-count" type="number" class="form-control text-center" value="1">
                 </div>
                 <div class="plus-minus-btn">
-                    <p> <span id="cost-add">+</span> <span id="cost-decrease">-</span> </p>
+                    <button id="firstClass-increase" onclick="handleTicketsQuantity('firstClass', true) " class="btn-plus"> + </button> <button id="firstClass-decrease" class="btn-minus"  onclick="handleTicketsQuantity('firstClass', false)"> - </button> 
                 </div>
             </div>
             
             <div class="input-group f-class">
                 <div>
-                    <label for="">Economy <span id="ticket-amount">($100)</span></label>
-                    <input id="ticket-counter" type="text" class="form-control text-center" value="1">
+                    <label for="">Economy <span id="economy-amount">($100)</span></label>
+                    <input id="economy-count" type="number" class="form-control text-center" value="1">
                 </div>
                 <div class="plus-minus-btn">
-                    <p> <span id="cost-add">+</span> <span>-</span> </p>
-                </div>
+                    <button id="economy-increase" onclick="handleTicketsQuantity('economy', true)" class="btn-plus">+</button> <button id="economy-decrease" class="btn-minus" onclick="handleTicketsQuantity('economy', false)">-</button> 
+                   </div>
             </div>
             <div class="calculations">
                 <div class="amount">
@@ -105,23 +113,32 @@
     </section>
 
     <script>
-        document.getElementById('cost-add').addEventListener('click', function(){
-          var ticketInput =  document.getElementById('ticket-counter');
-          var ticketCounter = parseInt(ticketInput.value);
-          var ticketNewCounter = ticketCounter + 1;
-          ticketInput.value = ticketNewCounter;
-          var ticketAmount = ticketNewCounter * 150;
-          document.getElementById('ticket-amount').innerText = '($'+ ticketAmount + ')';
-        });
+        
 
-        document.getElementById('cost-decrease').addEventListener('click', function(){
-          var ticketInput =  document.getElementById('ticket-counter');
-          var ticketCounter = parseInt(ticketInput.value);
-          var ticketNewCounter = ticketCounter - 1;
-          ticketInput.value = ticketNewCounter;
-          var ticketAmount = ticketNewCounter * 100;
-          document.getElementById('ticket-amount').innerText = '($'+ ticketAmount + ')';
-        });
+        function handleTicketsQuantity(tickets, increase){
+        const firstClassInput =  document.getElementById( tickets + '-count');
+        const firstClassCount = parseInt(firstClassInput.value);
+       let firstClassNewCount = firstClassCount;
+        if (increase == true) {
+            firstClassNewCount = firstClassCount + 1;
+
+        }
+        if (increase == false && firstClassCount > 0) {
+            firstClassNewCount = firstClassCount - 1;
+        }
+        firstClassInput.value = firstClassNewCount;
+        let firstClassAmount = 0;
+        if(tickets == 'firstClass'){
+            firstClassAmount  =   firstClassNewCount * 150;
+        }
+        if ( tickets == 'economy'){
+            firstClassAmount  =   firstClassNewCount * 100;
+        }
+        document.getElementById(tickets + '-amount').innerText = '($'+  firstClassAmount + ')'  ;
+       
+        }
+       
+
     </script>
 </body>
 
